@@ -25,17 +25,20 @@ func BenchmarkWorkerOverGoroutine(b *testing.B) {
 }
 
 func BenchmarkWorkerPool(b *testing.B) {
-	fmt.Println("example go worker")
+	fmt.Printf("default goroutine %d \n", runtime.NumGoroutine())
 
 	jobs := make(chan string, users)
 	var wg sync.WaitGroup
 
-	for i := 1; i < 5; i++ {
+	for i := 1; i <= workers; i++ {
 		wg.Add(1)
 		go worker(i, jobs, &wg)
 		fmt.Printf("open goroutine %d\n", runtime.NumGoroutine())
 		time.Sleep(1 * time.Second)
 	}
+	fmt.Println("--- initialized worker successfully ---")
+	fmt.Printf("the job will run 2 seconds more\n\n")
+	time.Sleep(2 * time.Second)
 	for i := 1; i < users; i++ {
 		jobs <- fmt.Sprintf("user %d", i)
 	}

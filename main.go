@@ -12,6 +12,7 @@ import (
 
 func worker(id int, jobs <-chan string, wg *sync.WaitGroup) {
 	defer wg.Done()
+
 	for j := range jobs {
 		fmt.Println("Worker", id, "process job", j)
 		time.Sleep(time.Second)
@@ -19,7 +20,10 @@ func worker(id int, jobs <-chan string, wg *sync.WaitGroup) {
 }
 
 // contoh big data
-var users = 1000000
+var (
+	users   = 1000000
+	workers = 10
+)
 
 // goroutine id
 func goroutineId() (int, error) {
