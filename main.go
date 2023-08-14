@@ -10,20 +10,24 @@ import (
 	"time"
 )
 
+var (
+	workers = 10
+	users   = 1000000
+)
+
 func worker(id int, jobs <-chan string, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	for j := range jobs {
 		fmt.Println("Worker", id, "process job", j)
-		time.Sleep(time.Second)
+		processData(j)
 	}
 }
 
-// contoh big data
-var (
-	users   = 1000000
-	workers = 10
-)
+func processData(string) {
+	// simulasi proses data
+	time.Sleep(1 * time.Second)
+}
 
 // goroutine id
 func goroutineId() (int, error) {
